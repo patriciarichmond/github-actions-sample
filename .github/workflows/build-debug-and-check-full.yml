@@ -1,0 +1,52 @@
+name: Build Debug and Check Full
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-debug-and-check-quality:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+      - name: Check the repository
+        uses: actions/checkout@v5
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Assemble debug
+        run: ./gradlew assembleDebug
+
+      - name: Run local tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Upload local test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-test-reports
+          path: app/build/reports/tests
+
+      - name: Enable KVM group permissions
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run instrumented tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          arch: x86_64
+          disable-animations: true
+          script: ./gradlew connectedDebugAndroidTest
+
+      - name: Upload local test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-test-reports
+          path: app/build/reports/androidTests
