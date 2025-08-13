@@ -43,7 +43,9 @@ jobs:
           api-level: 36
           arch: x86_64
           disable-animations: true
-          script: ./gradlew connectedDebugAndroidTest
+          script: |
+            sdkmanager --list
+            ./gradlew connectedDebugAndroidTest
 
       - name: Upload local test reports
         uses: actions/upload-artifact@v4
