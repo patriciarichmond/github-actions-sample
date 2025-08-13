@@ -46,8 +46,8 @@ jobs:
           disable-animations: true
           script: ./gradlew connectedDebugAndroidTest
 
-      - name: Upload local test reports
+      - name: Upload instrumented test reports
         uses: actions/upload-artifact@v4
         with:
-          name: local-test-reports
+          name: instrumented-test-reports
           path: app/build/reports/androidTests
