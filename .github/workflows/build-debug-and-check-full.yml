@@ -41,11 +41,10 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 36
+          target: google_apis
           arch: x86_64
           disable-animations: true
-          script: |
-            sdkmanager --list
-            ./gradlew connectedDebugAndroidTest
+          script: ./gradlew connectedDebugAndroidTest
 
       - name: Upload local test reports
         uses: actions/upload-artifact@v4
