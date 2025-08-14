@@ -23,7 +23,8 @@ jobs:
 
       - name: Set Up Gradle
         uses: gradle/actions/setup-gradle@v4
-        cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Assemble debug
         run: ./gradlew assembleDebug
