@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    timeout-minutes: 75
     steps:
 
       - name: Check the repository
@@ -19,7 +20,10 @@ jobs:
         with:
           distribution: zulu
           java-version: 17
-          cache: gradle
+
+      - name: Set Up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Assemble debug
         run: ./gradlew assembleDebug
