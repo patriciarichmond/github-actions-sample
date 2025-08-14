@@ -5,6 +5,7 @@ on:
 
 jobs:
   build-debug-and-check-quality:
+    name: Build debug and check quality
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -13,7 +14,7 @@ jobs:
       - name: Check the repository
         uses: actions/checkout@v5
 
-      - name: Setup Java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: zulu

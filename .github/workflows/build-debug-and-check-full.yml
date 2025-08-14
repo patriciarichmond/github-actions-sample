@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-debug-and-check-quality:
+  build-debug-and-check-full:
+    name: Build debug and check full
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -13,7 +14,7 @@ jobs:
       - name: Check the repository
         uses: actions/checkout@v5
 
-      - name: Setup Java
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: zulu
